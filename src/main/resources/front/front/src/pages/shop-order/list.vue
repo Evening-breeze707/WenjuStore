@@ -1,5 +1,5 @@
 <template>
-<div :style='{"width":"1200px","padding":"120px 7% 100px","margin":"0px auto","position":"relative","background":"url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6"}'>
+<div :style='{"width":"calc(100vw - 80px)","maxWidth":"1680px","padding":"120px 20px 100px","margin":"0px auto","position":"relative","boxSizing":"border-box","background":"url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6"}'>
     <el-button :style='{"border":"0","cursor":"pointer","padding":"0 10px","margin":"0 5px 0 0","outline":"none","color":"#fff","borderRadius":"4px","background":"#be904c","width":"auto","lineHeight":"40px","fontSize":"14px","height":"40px"}' type="warning" size="mini" @click="backClick" class="el-icon-back">返回</el-button>
     <div class="section-title" :style='{"margin":"10px 0","color":"#333","textAlign":"center","background":"none","width":"100%","fontSize":"22px","lineHeight":"54px","fontWeight":"600"}'>我的订单</div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -10,7 +10,7 @@
       <el-tab-pane label="已退款" name="已退款"></el-tab-pane>
       <el-tab-pane label="已取消" name="已取消"></el-tab-pane>
     </el-tabs>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table class="order-table" :data="tableData" style="width: 100%">
       <el-table-column label="订单编号" prop="orderid"></el-table-column>
       <el-table-column label="商品" align="center" width="200px">
         <template slot-scope="scope">
@@ -38,15 +38,16 @@
       <el-table-column label="收货人" prop="consignee"></el-table-column>
       <el-table-column label="下单时间" prop="addtime"></el-table-column>
       <el-table-column label="备注" prop="remark"></el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="220">
         <template slot-scope="scope">
           <el-button v-show="activeName == '未支付'" type="success" :style='{"margin":"2px auto",}' size="mini" @click="pay(scope.row)">支付</el-button>
           <el-button v-show="activeName == '未支付'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="cancel(scope.row)">取消</el-button>
-          <el-button v-show="activeName == '已支付'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="refund(scope.row)">退款</el-button>
+          <el-button v-show="activeName == '已支付'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="refund(scope.row)">取消并退款</el-button>
           <el-button v-if="scope.row.logistics" type="warning" :style='{"margin":"2px auto",}' size="mini" @click="logistics(scope.row)">物流</el-button>
           <el-button v-show="activeName == '已完成'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="returnGood(scope.row)">退货</el-button>
           <el-button v-show="activeName == '已完成'" type="primary" :style='{"margin":"2px auto",}' size="mini" @click="toDetail(scope.row)">评价</el-button>
           <el-button v-show="activeName == '已发货'" type="success" :style='{"margin":"2px auto",}' size="mini" @click="confirm(scope.row)">确认收货</el-button>
+          <el-button v-show="activeName == '已完成' || activeName == '已取消' || activeName == '已退款'" type="info" :style='{"margin":"2px auto",}' size="mini" @click="deleteOrder(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -407,6 +408,28 @@
                       this.getMyOrderList(1);
                     }
                   });
+              });
+          });
+      },
+      deleteOrder(item) {
+          this.$confirm(`确定删除这条订单记录吗？删除后无法恢复。`, "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+          }).then(() => {
+              this.$http.post(`orders/delete`, [item.id]).then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                        message: '订单删除成功',
+                        type: 'success',
+                        duration: 1500,
+                        onClose: () => {
+                          this.getMyOrderList(1);
+                        }
+                      });
+                  } else {
+                      this.$message.error(res.data.msg || '订单删除失败');
+                  }
               });
           });
       },

@@ -7,16 +7,6 @@
         <p class="auth-copy">
           用于商品、分类、订单、留言和用户信息的统一管理。
         </p>
-        <div class="promo-metrics">
-          <div class="metric-card">
-            <strong>集中管理商品与分类</strong>
-            <p>维护文具信息、商品分类、库存与价格。</p>
-          </div>
-          <div class="metric-card">
-            <strong>查看订单与用户数据</strong>
-            <p>统一处理订单状态、留言反馈和用户信息。</p>
-          </div>
-        </div>
       </section>
 
       <el-form class="admin-auth-form" ref="adminLoginForm" :model="rulesForm">
@@ -206,29 +196,6 @@ export default {
   margin: 20px 0 0;
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.8);
-}
-
-.promo-metrics {
-  display: grid;
-  gap: 14px;
-  margin-top: 28px;
-}
-
-.metric-card {
-  padding: 20px 22px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.metric-card strong {
-  display: block;
-  font-size: 20px;
-}
-
-.metric-card p {
-  margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.72);
-  line-height: 1.7;
 }
 
 .admin-auth-form {

@@ -172,7 +172,31 @@ public class OrdersController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
+    public R delete(@RequestBody Long[] ids, HttpServletRequest request){
+        String tableName = (String)request.getSession().getAttribute("tableName");
+        Long userId = (Long)request.getSession().getAttribute("userId");
+        if(tableName == null || userId == null) {
+            return R.error(401, "请先登录");
+        }
+        if("users".equals(tableName)) {
+            ordersService.deleteBatchIds(Arrays.asList(ids));
+            return R.ok();
+        }
+        if(!"yonghu".equals(tableName)) {
+            return R.error("当前用户无权删除订单");
+        }
+        for(Long id : ids) {
+            OrdersEntity order = ordersService.selectById(id);
+            if(order == null) {
+                continue;
+            }
+            if(!userId.equals(order.getUserid())) {
+                return R.error("只能删除自己的订单");
+            }
+            if(order.getStatus() == null || !(order.getStatus().equals("已完成") || order.getStatus().equals("已退款") || order.getStatus().equals("已取消"))) {
+                return R.error("当前订单状态不允许删除");
+            }
+        }
         ordersService.deleteBatchIds(Arrays.asList(ids));
         return R.ok();
     }

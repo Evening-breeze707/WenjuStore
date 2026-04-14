@@ -7,16 +7,6 @@
         <p class="auth-copy">
           精选文具与创意周边，带来更轻松、更高效的书写与学习体验。
         </p>
-        <div class="auth-tiles">
-          <div class="auth-tile">
-            <strong>发现你喜欢的文具</strong>
-            <p>从日常书写到学习收纳，快速找到适合自己的商品。</p>
-          </div>
-          <div class="auth-tile">
-            <strong>轻松完成下单流程</strong>
-            <p>登录后即可使用收藏、购物车、地址管理和订单服务。</p>
-          </div>
-        </div>
       </section>
 
       <el-form ref="loginForm" :model="loginForm" class="auth-form" :rules="rules">
@@ -184,31 +174,6 @@ export default {
   margin: 20px 0 0;
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.8);
-}
-
-.auth-tiles {
-  display: grid;
-  gap: 14px;
-  margin-top: 30px;
-}
-
-.auth-tile {
-  padding: 20px 22px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-}
-
-.auth-tile strong {
-  display: block;
-  font-size: 18px;
-  font-size: 18px;
-}
-
-.auth-tile p {
-  margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.72);
-  line-height: 1.7;
 }
 
 .auth-form {

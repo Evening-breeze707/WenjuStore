@@ -17,15 +17,34 @@
         <el-input v-model="form.address" placeholder="请选择地址" readonly @click.native="popMap"></el-input>
       </el-form-item>
       <el-form-item :style='{"padding":"0","textAlign":"center","margin":"0"}'>
-        <el-button :style='{"border":"0","cursor":"pointer","padding":"0","margin":"0 20px 0 0","outline":"none","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","background":"#cca162","width":"128px","lineHeight":"40px","fontSize":"14px","height":"40px"}' type="primary" @click="onSubmit('form')">添加</el-button>
+        <el-button :style='{"border":"0","cursor":"pointer","padding":"0","margin":"0 20px 0 0","outline":"none","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","background":"#cca162","width":"128px","lineHeight":"40px","fontSize":"14px","height":"40px"}' type="primary" @click="onSubmit('form')">{{ isEdit ? '更新' : '添加' }}</el-button>
         <el-button :style='{"border":"0px solid rgba(64, 158, 255, 1)","cursor":"pointer","padding":"0","margin":"0","outline":"none","color":"#fff","borderRadius":"4px","background":"#009688","width":"128px","lineHeight":"40px","fontSize":"14px","height":"40px"}' @click="goBack">取消</el-button>
       </el-form-item>
     </el-form>
 
-    <el-dialog id="myMapDialog" title="请选择收货地址" width="500px" :visible.sync="dialogVisible" top="5vh">
-      <baidu-map class="map" :center="center" :zoom="zoom" :scroll-wheel-zoom="true" @ready="onBaiduMapReady" @click="getClickInfo">
+    <el-dialog
+      id="myMapDialog"
+      title="请选择收货地址"
+      width="500px"
+      :visible.sync="dialogVisible"
+      top="5vh"
+      append-to-body
+      :close-on-click-modal="false"
+      @opened="handleDialogOpened"
+      @closed="handleDialogClosed"
+    >
+      <baidu-map
+        v-if="mapVisible"
+        :key="mapKey"
+        class="map"
+        :center="center"
+        :zoom="zoom"
+        :scroll-wheel-zoom="true"
+        @ready="onBaiduMapReady"
+        @click="getClickInfo"
+      >
         <bm-view style="width: 100%; height: 100%;" />
-        <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" />
+        <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" />
         <bm-geolocation
           anchor="BMAP_ANCHOR_BOTTOM_RIGHT"
           :showAddressBar="false"
@@ -45,8 +64,8 @@
 
 <script>
   import { Loading } from 'element-ui';
+
   export default {
-    //数据集合
     data() {
       return {
         form: {
@@ -65,11 +84,13 @@
           address: [{ required: true, message: '请选择收货地址', trigger: 'blur' }]
         },
         dialogVisible: false,
+        mapVisible: false,
+        mapKey: 0,
         BMap: null,
         map: null,
         mapReady: false,
-        // center: { lat: 24.30457061, lng: 116.12640310 },
-        center: { lng: 0, lat: 0 },
+        center: { lng: 121.4737, lat: 31.2304 },
+        pendingCenter: null,
         address: '',
         detailAddress: '',
         zoom: 15,
@@ -84,7 +105,6 @@
       }
       this.syncDialogAddressFromForm();
     },
-    //方法集合
     methods: {
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
@@ -101,13 +121,11 @@
                 });
               }
             });
-          } else {
-            return false;
           }
         });
       },
       getAddr() {
-        if (this.address == '') {
+        if (!this.address) {
           this.$message({
             message: '地址不能为空',
             type: 'error',
@@ -115,11 +133,9 @@
           });
           return;
         }
-        if (this.detailAddress && this.detailAddress.trim()) {
-          this.form.address = `${this.address} ${this.detailAddress.trim()}`;
-        } else {
-          this.form.address = this.address;
-        }
+        this.form.address = this.detailAddress && this.detailAddress.trim()
+          ? `${this.address} ${this.detailAddress.trim()}`
+          : this.address;
         this.dialogVisible = false;
       },
       goBack() {
@@ -149,10 +165,39 @@
           this.loadingInstance = null;
         }
       },
+      handleDialogOpened() {
+        this.mapVisible = false;
+        this.mapReady = false;
+        this.BMap = null;
+        this.map = null;
+        this.mapKey += 1;
+        this.$nextTick(() => {
+          this.mapVisible = true;
+        });
+      },
+      handleDialogClosed() {
+        this.mapVisible = false;
+        this.mapReady = false;
+        this.BMap = null;
+        this.map = null;
+        this.pendingCenter = null;
+      },
       onBaiduMapReady(e) {
         this.BMap = e.BMap;
         this.map = e.map;
         this.mapReady = true;
+        if (this.pendingCenter) {
+          this.applyCenter(this.pendingCenter.lng, this.pendingCenter.lat, true);
+          this.pendingCenter = null;
+        }
+      },
+      applyCenter(lng, lat, syncMap = false) {
+        const nextCenter = { lng: Number(lng), lat: Number(lat) };
+        this.center = nextCenter;
+        if (syncMap && this.mapReady && this.BMap && this.map) {
+          const point = new this.BMap.Point(nextCenter.lng, nextCenter.lat);
+          this.map.centerAndZoom(point, this.zoom);
+        }
       },
       locateUser() {
         const that = this;
@@ -188,8 +233,11 @@
                 that.$message.warning('定位失败，请手动输入地址');
                 return;
               }
-              that.center.lng = lng;
-              that.center.lat = lat;
+              if (that.mapReady) {
+                that.applyCenter(lng, lat, true);
+              } else {
+                that.pendingCenter = { lng, lat };
+              }
               that.reverseGeocodeByBaidu(lat, lng)
                 .then((addrText) => {
                   if (addrText) {
@@ -198,12 +246,11 @@
                     return;
                   }
                   that.address = `当前位置(经度:${lng.toFixed(6)}, 纬度:${lat.toFixed(6)})`;
-                  that.$message.warning('当前只能定位到经纬度，建议点地图选点以补全到小区/门牌号');
-                  that.openAddressPickGuide();
+                  that.$message.warning('当前位置解析失败，建议点击地图选点或手动填写详细地址');
                 })
                 .catch(() => {
                   that.address = `当前位置(经度:${lng.toFixed(6)}, 纬度:${lat.toFixed(6)})`;
-                  that.$message.warning('当前位置解析失败，建议点地图选点或手动填写详细地址');
+                  that.$message.warning('当前位置解析失败，建议点击地图选点或手动填写详细地址');
                 });
             },
             () => {
@@ -230,9 +277,7 @@
             fallbackByBrowserGeo();
             return;
           }
-          that.center.lng = res.point.lng;
-          that.center.lat = res.point.lat;
-          that.map.setCenter(res.point);
+          that.applyCenter(res.point.lng, res.point.lat, true);
           const addr = res.address || {};
           that.address = (addr.province || '') + (addr.city || '') + (addr.district || '') + (addr.street || '') + (addr.street_number || '');
         }, { enableHighAccuracy: true });
@@ -253,35 +298,25 @@
           return data.data.address || '';
         }).catch(() => '');
       },
-      openAddressPickGuide() {
-        const url = `https://api.map.baidu.com/lbsapi/getpoint/index.html?ak=2mvCyHCf06q7q4ql9PkAgTTd6C2OdozW`;
-        window.open(url, '_blank');
-      },
       getClickInfo(e) {
-        this.center.lng = e.point.lng
-        this.center.lat = e.point.lat
-
+        this.applyCenter(e.point.lng, e.point.lat);
         if (this.BMap) {
-          let that = this
-          const geoCoder = new this.BMap.Geocoder()
+          const that = this;
+          const geoCoder = new this.BMap.Geocoder();
           geoCoder.getLocation(e.point, function(res) {
-            const addrComponent = res.addressComponents
-            const surroundingPois = res.surroundingPois
-            const province = addrComponent.province
-            const city = addrComponent.city
-            const district = addrComponent.district
-            let addr = addrComponent.street
+            const addrComponent = res.addressComponents || {};
+            const surroundingPois = res.surroundingPois || [];
+            const province = addrComponent.province || '';
+            const city = addrComponent.city || '';
+            const district = addrComponent.district || '';
+            let addr = addrComponent.street || '';
             if (surroundingPois.length > 0 && surroundingPois[0].title) {
-              if (addr) {
-                addr += `-${surroundingPois[0].title}`
-              } else {
-                addr += `${surroundingPois[0].title}`
-              }
+              addr = addr ? `${addr}-${surroundingPois[0].title}` : surroundingPois[0].title;
             } else {
-              addr += addrComponent.streetNumber
+              addr += addrComponent.streetNumber || '';
             }
             that.address = province + city + district + addr;
-          })
+          });
         }
       },
     }

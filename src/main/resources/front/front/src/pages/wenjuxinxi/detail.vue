@@ -5,6 +5,9 @@
 			<el-breadcrumb-item>首页</el-breadcrumb-item>
 			<el-breadcrumb-item v-for="(item, index) in breadcrumbItem" :key="index">{{item.name}}</el-breadcrumb-item>
 		</el-breadcrumb>
+		<div class="breadcrumb-action">
+			<el-button size="mini" @click="goBackList">返回列表</el-button>
+		</div>
 	</div>
 	
 	<div class="detail-preview" :style='{"width":"100%","padding":"10px 0 20px","margin":"70px auto 0","position":"relative"}'>
@@ -210,6 +213,9 @@
           this.getCartList();
 
         },
+      goBackList() {
+        this.$router.push('/index/wenjuxinxi');
+      },
       storeup(type) {
         if (type == 1 && !this.isStoreup) {
           this.storeupParams.name = this.title;
@@ -434,6 +440,18 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+	.breadcrumb-preview {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.breadcrumb-action {
+		display: flex;
+		align-items: center;
+		height: 100%;
+	}
+
 	.detail-preview {
 	
 	  .attr {

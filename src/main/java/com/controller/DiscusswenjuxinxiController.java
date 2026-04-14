@@ -28,9 +28,11 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.annotation.IgnoreAuth;
 
 import com.entity.DiscusswenjuxinxiEntity;
+import com.entity.OrdersEntity;
 import com.entity.view.DiscusswenjuxinxiView;
 
 import com.service.DiscusswenjuxinxiService;
+import com.service.OrdersService;
 import com.service.TokenService;
 import com.utils.PageUtils;
 import com.utils.R;
@@ -51,6 +53,9 @@ import java.io.IOException;
 public class DiscusswenjuxinxiController {
     @Autowired
     private DiscusswenjuxinxiService discusswenjuxinxiService;
+
+    @Autowired
+    private OrdersService ordersService;
 
 
     
@@ -141,8 +146,38 @@ public class DiscusswenjuxinxiController {
      */
     @RequestMapping("/add")
     public R add(@RequestBody DiscusswenjuxinxiEntity discusswenjuxinxi, HttpServletRequest request){
+    	Long userId = (Long) request.getSession().getAttribute("userId");
+    	if(userId == null) {
+    		return R.error(401, "请先登录");
+    	}
+    	String tableName = (String) request.getSession().getAttribute("tableName");
+    	if(!"yonghu".equals(tableName)) {
+    		return R.error("只有用户可以评价");
+    	}
+    	if(discusswenjuxinxi.getRefid() == null) {
+    		return R.error("缺少商品信息");
+    	}
+    	int completedOrderCount = ordersService.selectCount(
+    			new EntityWrapper<OrdersEntity>()
+    					.eq("userid", userId)
+    					.eq("goodid", discusswenjuxinxi.getRefid())
+    					.eq("tablename", "wenjuxinxi")
+    					.eq("status", "已完成")
+    	);
+    	if(completedOrderCount <= 0) {
+    		return R.error("请在完成交易后再进行评价");
+    	}
+    	int commentCount = discusswenjuxinxiService.selectCount(
+    			new EntityWrapper<DiscusswenjuxinxiEntity>()
+    					.eq("userid", userId)
+    					.eq("refid", discusswenjuxinxi.getRefid())
+    	);
+    	if(commentCount >= completedOrderCount) {
+    		return R.error("每完成一笔订单只能评价一次");
+    	}
     	discusswenjuxinxi.setId(new Date().getTime()+new Double(Math.floor(Math.random()*1000)).longValue());
     	//ValidatorUtils.validateEntity(discusswenjuxinxi);
+    	discusswenjuxinxi.setUserid(userId);
         discusswenjuxinxiService.insert(discusswenjuxinxi);
         return R.ok();
     }

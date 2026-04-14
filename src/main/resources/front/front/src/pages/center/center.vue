@@ -51,7 +51,7 @@
           </el-form-item>
         </el-form>
 		
-        <el-dialog title="用户充值" :visible.sync="dialogFormVisibleMoney" width="726px" center>
+        <el-dialog title="用户充值" :visible.sync="dialogFormVisibleMoney" width="726px" center append-to-body :close-on-click-modal="false">
           <el-form :model="chongzhiForm">
             <el-form-item label="充值金额" label-width="120px">
               <el-input type="number" v-model="chongzhiForm.money" autocomplete="off" placeholder="充值金额"></el-input>
@@ -104,7 +104,7 @@
             <el-button type="primary" @click="chongzhi">确认充值</el-button>
           </div>
         </el-dialog>
-        <el-dialog title="会员购买" :visible.sync="dialogFormVisibleVip" width="726px" center>
+        <el-dialog title="会员购买" :visible.sync="dialogFormVisibleVip" width="726px" center append-to-body :close-on-click-modal="false">
           <el-form :model="chongzhiForm">
             <el-form-item label="会员卡" label-width="120px">
               <el-input readonly autocomplete="off" value="￥199/年"></el-input>
