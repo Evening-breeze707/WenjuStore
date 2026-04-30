@@ -1,25 +1,30 @@
 <template>
   <div class="home-showcase">
-    <section class="carousel-panel">
-      <div class="panel-head">
+    <section class="hero-storefront">
+      <div class="hero-copy">
+        <p class="panel-tag">文具销售系统</p>
+        <h2>精选文具，一站式选购</h2>
+        <p>覆盖学习、办公和日常书写场景，快速浏览商品信息、价格与库存，轻松完成收藏、加购和下单。</p>
+      </div>
+      <div class="hero-carousel-card">
         <div>
           <p class="panel-tag">首页轮播</p>
           <h3>精选展示</h3>
         </div>
+        <el-carousel
+          class="home-carousel"
+          trigger="click"
+          indicator-position="outside"
+          arrow="always"
+          height="360px"
+          :autoplay="true"
+          :interval="5000"
+        >
+          <el-carousel-item v-for="item in carouselList" :key="item.id">
+            <el-image class="home-image" :src="baseUrl + item.value" fit="cover"></el-image>
+          </el-carousel-item>
+        </el-carousel>
       </div>
-      <el-carousel
-        class="home-carousel"
-        trigger="click"
-        indicator-position="outside"
-        arrow="always"
-        height="460px"
-        :autoplay="true"
-        :interval="5000"
-      >
-        <el-carousel-item v-for="item in carouselList" :key="item.id">
-          <el-image class="home-image" :src="baseUrl + item.value" fit="cover"></el-image>
-        </el-carousel-item>
-      </el-carousel>
     </section>
 
     <section class="product-panel">
@@ -248,7 +253,8 @@ export default {
   padding-bottom: 18px;
 }
 
-.carousel-panel,
+.hero-storefront,
+.hero-carousel-card,
 .product-panel,
 .news-panel {
   border: 1px solid rgba(24, 37, 49, 0.08);
@@ -257,10 +263,46 @@ export default {
   box-shadow: var(--front-shadow);
 }
 
-.carousel-panel,
 .product-panel,
 .news-panel {
   padding: 24px 26px 30px;
+}
+
+.hero-storefront {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1.18fr);
+  gap: 24px;
+  padding: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(77, 143, 216, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(250, 253, 255, 0.96), rgba(244, 251, 255, 0.92));
+}
+
+.hero-copy {
+  align-self: center;
+  padding: 18px 10px 18px 6px;
+}
+
+.hero-copy h2 {
+  margin: 12px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.02;
+  color: var(--front-ink);
+}
+
+.hero-copy > p:not(.panel-tag) {
+  max-width: 520px;
+  margin: 18px 0 0;
+  color: var(--front-muted);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.hero-carousel-card {
+  padding: 18px 18px 28px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .home-carousel /deep/ .el-carousel__container {
@@ -367,7 +409,9 @@ export default {
 }
 
 .product-panel.alt {
-  background: linear-gradient(180deg, rgba(255, 250, 241, 0.96), rgba(246, 237, 224, 0.92));
+  background:
+    radial-gradient(circle at 100% 0, rgba(37, 127, 120, 0.11), transparent 24%),
+    linear-gradient(180deg, rgba(255, 253, 247, 0.96), rgba(238, 246, 241, 0.94));
 }
 
 .panel-head {
@@ -420,12 +464,14 @@ export default {
   border-radius: 26px;
   border: 1px solid rgba(24, 37, 49, 0.08);
   background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 28px rgba(36, 50, 66, 0.08);
 }
 
 .product-thumb {
   height: 250px;
   overflow: hidden;
-  background: linear-gradient(135deg, #f3e8d6, #e4d5bd);
+  background:
+    linear-gradient(135deg, rgba(232, 242, 255, 0.9), rgba(246, 251, 255, 0.88));
 }
 
 .product-thumb img {
@@ -442,6 +488,7 @@ export default {
 .product-meta h4 {
   margin-top: 10px;
   font-size: 24px;
+  line-height: 1.25;
 }
 
 .product-foot {
@@ -461,7 +508,7 @@ export default {
 
 .feature-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) 360px;
+  grid-template-columns: minmax(0, 1.08fr) 390px;
   gap: 18px;
 }
 
@@ -470,6 +517,7 @@ export default {
   overflow: hidden;
   min-height: 420px;
   border-radius: 30px;
+  box-shadow: 0 16px 34px rgba(36, 50, 66, 0.12);
 }
 
 .feature-lead img {
@@ -518,6 +566,7 @@ export default {
   border-radius: 24px;
   border: 1px solid rgba(24, 37, 49, 0.08);
   background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 10px 24px rgba(36, 50, 66, 0.08);
 }
 
 .mini-card img {
@@ -539,11 +588,13 @@ export default {
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
 .news-card {
+  display: grid;
+  grid-template-columns: 180px 1fr;
   overflow: hidden;
   border-radius: 26px;
   border: 1px solid rgba(24, 37, 49, 0.08);
@@ -552,7 +603,8 @@ export default {
 
 .news-image {
   width: 100%;
-  height: 220px;
+  height: 100%;
+  min-height: 170px;
   object-fit: cover;
   display: block;
 }
@@ -574,6 +626,7 @@ export default {
 }
 
 @media (max-width: 1180px) {
+  .hero-storefront,
   .feature-split,
   .product-grid,
   .news-grid {
@@ -582,10 +635,15 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .carousel-panel,
+  .hero-storefront,
+  .hero-carousel-card,
   .product-panel,
   .news-panel {
     padding: 20px;
+  }
+
+  .hero-copy h2 {
+    font-size: 38px;
   }
 
   .story-visual {
@@ -602,6 +660,14 @@ export default {
 
   .mini-card img {
     width: 100%;
+    height: 190px;
+  }
+
+  .news-card {
+    grid-template-columns: 1fr;
+  }
+
+  .news-image {
     height: 190px;
   }
 

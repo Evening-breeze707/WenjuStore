@@ -167,8 +167,8 @@ export default {
 .admin-auth-promo {
   padding: 52px 44px;
   background:
-    radial-gradient(circle at top right, rgba(201, 106, 45, 0.18), transparent 24%),
-    linear-gradient(160deg, #173043 0%, #204a62 100%);
+    radial-gradient(circle at top right, rgba(77, 143, 216, 0.2), transparent 24%),
+    linear-gradient(160deg, #203d68 0%, #2f78ba 100%);
   color: #fff;
 }
 
@@ -224,8 +224,8 @@ export default {
 }
 
 .auth-input:focus {
-  border-color: rgba(43, 125, 120, 0.5);
-  box-shadow: 0 0 0 4px rgba(43, 125, 120, 0.1);
+  border-color: rgba(77, 143, 216, 0.5);
+  box-shadow: 0 0 0 4px rgba(77, 143, 216, 0.1);
 }
 
 .role-pills {

@@ -7,18 +7,6 @@
         <p class="auth-copy">
           注册后即可使用收藏、购物车、下单、地址管理和留言反馈等完整前台流程。
         </p>
-        <div class="auth-tiles">
-          <div class="auth-tile">
-            <span>01</span>
-            <strong>快速注册</strong>
-            <p>在保留原注册逻辑的基础上，提供更统一的展示风格。</p>
-          </div>
-          <div class="auth-tile">
-            <span>02</span>
-            <strong>资料完善</strong>
-            <p>头像、联系方式和个人中心等功能在注册后仍可正常使用。</p>
-          </div>
-        </div>
       </section>
 
       <el-form class="auth-form register-form" v-if="pageFlag==='register'" ref="registerForm" :model="registerForm" :rules="rules">

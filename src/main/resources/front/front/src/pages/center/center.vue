@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 <div class="center-preview" :style='{"padding":"40px 0 100px","margin":"0px auto","flexWrap":"wrap","background":"none","display":"flex","width":"100%","position":"relative","justifyContent":"space-between"}'>
 	<div class="title" :style='{"margin":"10px 0","color":"#333","textAlign":"center","background":"none","width":"100%","fontSize":"22px","lineHeight":"54px","fontWeight":"600"}'>{{ title }}</div>
 
@@ -492,7 +492,7 @@
   
   .center-preview .el-tabs /deep/ .el-tabs__content .el-tab-pane {
   	padding: 120px 0 100px;
-  	background: url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6;
+  	background: linear-gradient(145deg, rgba(250, 253, 255, 0.98), rgba(238, 246, 255, 0.94) 54%, rgba(247, 251, 255, 0.94));
   	width: 100vh;
   }
   
@@ -567,3 +567,4 @@
   	height: 40px;
   }
 </style>
+

@@ -129,10 +129,10 @@ export default {
   height: 100%;
   padding: 18px 14px 18px 18px;
   background:
-    radial-gradient(circle at top right, rgba(201, 106, 45, 0.14), transparent 22%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(243, 247, 246, 0.96));
+    radial-gradient(circle at top right, rgba(77, 143, 216, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(250, 253, 255, 0.96), rgba(238, 246, 255, 0.96));
   border-right: 1px solid var(--admin-line);
-  box-shadow: 12px 0 40px rgba(23, 48, 67, 0.06);
+  box-shadow: 12px 0 40px rgba(50, 73, 105, 0.08);
 }
 
 .aside-brand {
@@ -149,7 +149,7 @@ export default {
   width: 52px;
   height: 52px;
   border-radius: 18px;
-  background: linear-gradient(135deg, var(--admin-accent), var(--admin-accent-deep));
+  background: linear-gradient(135deg, var(--admin-accent), var(--admin-teal));
   color: #fff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 24px;
@@ -199,7 +199,7 @@ export default {
 
     .el-menu-vertical-demo > .el-submenu /deep/ .el-submenu__title:hover,
     .el-menu-vertical-demo > .el-submenu.is-opened /deep/ .el-submenu__title {
-      background: rgba(23, 48, 67, 0.08);
+      background: rgba(77, 143, 216, 0.12);
       color: var(--admin-accent-deep);
     }
 
@@ -223,7 +223,7 @@ export default {
 
     .el-menu-vertical-demo .el-submenu /deep/ .el-menu-item:hover,
     .el-menu-vertical-demo .el-submenu /deep/ .el-menu-item.is-active {
-      background: linear-gradient(135deg, var(--admin-teal), #3f9f99);
+      background: linear-gradient(135deg, var(--admin-accent), var(--admin-accent-deep));
       color: #fff;
     }
   }

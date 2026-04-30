@@ -105,6 +105,9 @@ export default {
   height: 100vh;
   margin-left: 0 !important;
   padding: 14px 18px 18px 12px !important;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(77, 143, 216, 0.16), transparent 30%),
+    linear-gradient(135deg, #f5f9ff, #eef6ff 56%, #f8fbff);
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -140,7 +143,7 @@ export default {
   right: -50px;
   width: 260px;
   height: 260px;
-  background: rgba(201, 106, 45, 0.18);
+  background: rgba(77, 143, 216, 0.18);
 }
 
 .admin-glow-b {
@@ -148,7 +151,7 @@ export default {
   left: 8%;
   width: 280px;
   height: 280px;
-  background: rgba(43, 125, 120, 0.14);
+  background: rgba(63, 158, 170, 0.14);
 }
 
 @media (max-width: 1100px) {

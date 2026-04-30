@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 <div>
 	<div :style='{"width":"100%","padding":"0px 7%","margin":"0px auto 10px","borderRadius":"0px","background":"#cfa66a","height":"40px"}' class="breadcrumb-preview">
 		<el-breadcrumb :separator="'Ξ'" :style='{"fontSize":"14px","lineHeight":"40px"}'>
@@ -17,7 +17,7 @@
 			</el-carousel>
 	
 			
-			<div class="info" :style='{"minHeight":"500px","width":"100%","padding":"120px 7% 120px","margin":"0","background":"url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6","order":"1"}'>
+			<div class="info" :style='{"minHeight":"500px","width":"100%","padding":"120px 7% 120px","margin":"0","background":"linear-gradient(145deg, rgba(250, 253, 255, 0.98), rgba(238, 246, 255, 0.94) 54%, rgba(247, 251, 255, 0.94))","order":"1"}'>
 				<div class="item" :style='{"padding":"10px 20px 10px 50px","boxShadow":"0 3px 0 #ebdcc6","margin":"0 0 10px 0","alignItems":"center","background":"none","display":"flex","justifyContent":"space-between"}'>
 					<div :style='{"padding":"0 30px","fontSize":"18px","color":"#cc8c2f","fontWeight":"600"}'>
                     </div>
@@ -675,3 +675,4 @@
 		height: 28px;
 	}
 </style>
+

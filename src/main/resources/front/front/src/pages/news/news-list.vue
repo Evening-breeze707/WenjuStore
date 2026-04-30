@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 <div>
 	<div :style='{"width":"100%","padding":"0px 7%","margin":"0px auto 10px","borderRadius":"0px","background":"#cfa66a","height":"40px"}' class="breadcrumb-preview">
 		<el-breadcrumb :separator="'Ξ'" :style='{"fontSize":"14px","lineHeight":"40px"}'>
@@ -24,7 +24,7 @@
 				
 				
 				<!-- 样式六 -->
-		<div class="list6 index-pv1" :style='{"width":"100%","padding":"120px 7% 100px","background":"url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6","height":"auto"}'>
+		<div class="list6 index-pv1" :style='{"width":"100%","padding":"120px 7% 100px","background":"linear-gradient(145deg, rgba(250, 253, 255, 0.98), rgba(238, 246, 255, 0.94) 54%, rgba(247, 251, 255, 0.94))","height":"auto"}'>
 			<div :style='{"width":"100%","margin":"10px 0 20px","background":"rgba(255,255,255,0)","justifyContent":"space-between","display":"flex","height":"auto"}' v-for="item in newsList" :key="item.id" @click="toNewsDetail(item)" class="list-item animation-box">
 				<el-image :style='{"border":"1px solid #ddd","padding":"10px","objectFit":"contain","background":"rgba(255,255,255,.6)","display":"inline-block","width":"220px","height":"180px"}' :src="baseUrl + item.picture" :fit="fill"></el-image>
 				<div class="item-info" :style='{"border":"1px solid #ddd","padding":"10px 0px","background":"rgba(255,255,255,1)","display":"inline-block","width":"calc(100% - 260px)","position":"relative","height":"100%"}'>
@@ -395,3 +395,4 @@
 				height: 28px;
 			}
 </style>
+

@@ -1,5 +1,5 @@
 <template>
-<div class="content" :style='{"minHeight":"100vh","padding":"30px","backgroundSize":"cover","background":"url(http://codegen.caihongy.cn/20220730/cb2195540cde42b7abf14af25c15da3e.png) no-repeat  center bottom / cover","height":"auto"}'>
+<div class="content" :style='{"minHeight":"100vh","padding":"30px","backgroundSize":"cover","background":"#f7f9f8","height":"auto"}'>
 	<div class="text" :style='{"margin":"50px auto","fontSize":"32px","color":"rgb(51, 51, 51)","textAlign":"center","fontWeight":"bold"}'>欢迎使用 {{this.$project.projectName}}</div>
 </div>
 </template>

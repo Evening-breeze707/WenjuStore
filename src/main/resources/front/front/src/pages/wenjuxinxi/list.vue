@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 <div>
 	<div :style='{"width":"100%","padding":"0px 7%","margin":"0px auto 10px","borderRadius":"0px","background":"#cfa66a","height":"40px"}' class="breadcrumb-preview">
 		<el-breadcrumb :separator="'Ξ'" :style='{"fontSize":"14px","lineHeight":"40px"}'>
@@ -34,7 +34,7 @@
 	  <el-button v-if="isAuth('wenjuxinxi','新增')" :style='{"cursor":"pointer","border":"0","padding":"0px 15px","margin":"0 10px 0 0","outline":"none","color":"#fff","borderRadius":"4px","background":"#1e8892","width":"auto","fontSize":"16px","lineHeight":"42px","height":"42px"}' type="primary" @click="add('/index/wenjuxinxiAdd')"><i v-if="true" :style='{"color":"#fff","margin":"0 10px 0 0","fontSize":"16px"}' class="el-icon-circle-plus-outline"></i>添加</el-button>
     </el-form>
 
-	<div class="list" :style='{"padding":"120px 7% 100px","margin":"20px 0 10px","background":"url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6"}'>
+	<div class="list" :style='{"padding":"120px 7% 100px","margin":"20px 0 10px","background":"linear-gradient(145deg, rgba(250, 253, 255, 0.98), rgba(238, 246, 255, 0.94) 54%, rgba(247, 251, 255, 0.94))"}'>
 		<!-- 样式一 -->
 		<div class="list1 index-pv1" :style='{"padding":"0px","margin":"30px 0 0","flexWrap":"wrap","background":"none","display":"flex","width":"100%","justifyContent":"space-between","height":"auto"}'>
 			<div :style='{"border":"1px solid #ddd","padding":"10px","margin":"0 0 20px","flexWrap":"wrap","background":"#fff","display":"flex","width":"23.5%","position":"relative","justifyContent":"space-between","height":"auto"}' v-for="(item, index) in dataList" :key="index" @click="toDetail(item)" class="list-item animation-box">
@@ -554,3 +554,4 @@
 		height: 28px;
 	}
 </style>
+

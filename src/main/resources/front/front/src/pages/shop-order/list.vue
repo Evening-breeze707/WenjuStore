@@ -1,6 +1,6 @@
 <template>
-<div :style='{"width":"calc(100vw - 80px)","maxWidth":"1680px","padding":"120px 20px 100px","margin":"0px auto","position":"relative","boxSizing":"border-box","background":"url(http://codegen.caihongy.cn/20230109/138a4d606eae4a168810cef229969885.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/b95aeae1c1294f398aefb7c6cd5b16de.png) no-repeat center top,url(http://codegen.caihongy.cn/20230109/5ffc803e6682418eb7f0b09a98e35527.png) no-repeat center bottom,#faf0e6"}'>
-    <el-button :style='{"border":"0","cursor":"pointer","padding":"0 10px","margin":"0 5px 0 0","outline":"none","color":"#fff","borderRadius":"4px","background":"#be904c","width":"auto","lineHeight":"40px","fontSize":"14px","height":"40px"}' type="warning" size="mini" @click="backClick" class="el-icon-back">返回</el-button>
+<div class="order-page" :style='{"width":"100%","maxWidth":"1320px","padding":"40px 24px 70px","margin":"0px auto","position":"relative","boxSizing":"border-box","background":"linear-gradient(145deg, rgba(250, 253, 255, 0.98), rgba(238, 246, 255, 0.94) 54%, rgba(247, 251, 255, 0.94))"}'>
+    <el-button :style='{"border":"0","cursor":"pointer","padding":"0 10px","margin":"0 5px 0 0","outline":"none","color":"#fff","borderRadius":"4px","background":"#4d8fd8","width":"auto","lineHeight":"40px","fontSize":"14px","height":"40px"}' type="warning" size="mini" @click="backClick" class="el-icon-back">返回</el-button>
     <div class="section-title" :style='{"margin":"10px 0","color":"#333","textAlign":"center","background":"none","width":"100%","fontSize":"22px","lineHeight":"54px","fontWeight":"600"}'>我的订单</div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="未支付" name="未支付"></el-tab-pane>
@@ -38,16 +38,18 @@
       <el-table-column label="收货人" prop="consignee"></el-table-column>
       <el-table-column label="下单时间" prop="addtime"></el-table-column>
       <el-table-column label="备注" prop="remark"></el-table-column>
-      <el-table-column label="操作" width="220">
+      <el-table-column label="操作" width="180" fixed="right">
         <template slot-scope="scope">
-          <el-button v-show="activeName == '未支付'" type="success" :style='{"margin":"2px auto",}' size="mini" @click="pay(scope.row)">支付</el-button>
-          <el-button v-show="activeName == '未支付'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="cancel(scope.row)">取消</el-button>
-          <el-button v-show="activeName == '已支付'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="refund(scope.row)">取消并退款</el-button>
-          <el-button v-if="scope.row.logistics" type="warning" :style='{"margin":"2px auto",}' size="mini" @click="logistics(scope.row)">物流</el-button>
-          <el-button v-show="activeName == '已完成'" type="danger" :style='{"margin":"2px auto",}' size="mini" @click="returnGood(scope.row)">退货</el-button>
-          <el-button v-show="activeName == '已完成'" type="primary" :style='{"margin":"2px auto",}' size="mini" @click="toDetail(scope.row)">评价</el-button>
-          <el-button v-show="activeName == '已发货'" type="success" :style='{"margin":"2px auto",}' size="mini" @click="confirm(scope.row)">确认收货</el-button>
-          <el-button v-show="activeName == '已完成' || activeName == '已取消' || activeName == '已退款'" type="info" :style='{"margin":"2px auto",}' size="mini" @click="deleteOrder(scope.row)">删除</el-button>
+          <div class="order-actions">
+            <el-button v-show="activeName == '未支付'" type="success" size="mini" @click="pay(scope.row)">支付</el-button>
+            <el-button v-show="activeName == '未支付'" type="danger" size="mini" @click="cancel(scope.row)">取消</el-button>
+            <el-button v-show="activeName == '已支付'" type="danger" size="mini" @click="refund(scope.row)">取消并退款</el-button>
+            <el-button v-if="scope.row.logistics" type="warning" size="mini" @click="logistics(scope.row)">物流</el-button>
+            <el-button v-show="activeName == '已完成'" type="danger" size="mini" @click="returnGood(scope.row)">退货</el-button>
+            <el-button v-show="activeName == '已完成'" type="primary" size="mini" @click="toDetail(scope.row)">评价</el-button>
+            <el-button v-show="activeName == '已发货'" type="success" size="mini" @click="confirm(scope.row)">确认收货</el-button>
+            <el-button v-show="activeName == '已完成' || activeName == '已取消' || activeName == '已退款'" type="info" size="mini" @click="deleteOrder(scope.row)">删除</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -457,6 +459,13 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+	.order-page {
+	  border: 1px solid rgba(36, 50, 66, 0.08);
+	  border-radius: 28px;
+	  overflow: hidden;
+	  box-shadow: var(--front-shadow);
+	}
+
 	.section {
 	  width: 1000px;
 	  margin: 0 auto;
@@ -464,6 +473,49 @@
 
 	.shangpin {
 	  display: flex;
+	  align-items: center;
+	  min-width: 0;
+	}
+
+	.order-table {
+	  margin-top: 12px;
+	  border-radius: 18px !important;
+	}
+
+	.order-table /deep/ .el-table__body-wrapper,
+	.order-table /deep/ .el-table__fixed-right {
+	  z-index: 2;
+	}
+
+	.order-table /deep/ th,
+	.order-table /deep/ td {
+	  padding: 12px 10px;
+	}
+
+	.order-table /deep/ .cell {
+	  word-break: break-word;
+	  line-height: 1.55;
+	}
+
+	.order-actions {
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: center;
+	  gap: 6px;
+	  min-width: 132px;
+	}
+
+	.order-actions /deep/ .el-button {
+	  margin: 0 !important;
+	  min-width: 54px;
+	  padding: 8px 10px !important;
+	}
+
+	@media (max-width: 960px) {
+	  .order-page {
+	    padding-left: 12px !important;
+	    padding-right: 12px !important;
+	  }
 	}
 	
 	.el-pagination /deep/ .el-pagination__total {
@@ -564,7 +616,7 @@
 		cursor: pointer;
 		padding: 0 4px;
 		margin: 0 5px;
-		color: #cca162;
+		color: #2367ad;
 		display: inline-block;
 		vertical-align: top;
 		font-size: 13px;
@@ -586,7 +638,7 @@
 		font-size: 13px;
 		line-height: 28px;
 		border-radius: 2px;
-		background: #cca162;
+		background: #4d8fd8;
 		text-align: center;
 		min-width: 30px;
 		height: 28px;

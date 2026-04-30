@@ -1,5 +1,5 @@
 <template>
-  <div :style='{"padding":"30px","backgroundSize":" 100% 100%","flexWrap":"wrap","background":"url(http://codegen.caihongy.cn/20220730/cb2195540cde42b7abf14af25c15da3e.png) no-repeat  center bottom / cover","display":"flex","height":"calc(100vh - 120px)"}'>
+  <div :style='{"padding":"30px","backgroundSize":" 100% 100%","flexWrap":"wrap","background":"#f7f9f8","display":"flex","height":"calc(100vh - 120px)"}'>
     <el-form
 	  :style='{"padding":"30px","boxShadow":"0 0px 0px rgba(64, 158, 255, .3)","borderRadius":"6px","flexWrap":"wrap","background":"#fff","display":"flex","width":"100%"}'
       class="add-update-preview"

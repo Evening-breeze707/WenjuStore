@@ -2,13 +2,26 @@
   <div class="site-shell">
     <div class="site-glow site-glow-a"></div>
     <div class="site-glow site-glow-b"></div>
+    <div class="site-pencil"></div>
 
     <header class="site-header">
-      <div class="brand-block" @click="$router.push('/index/home')">
-        <div class="brand-mark">WS</div>
-        <div class="brand-copy">
-          <p class="brand-kicker">文具零售展示系统</p>
-          <h1 class="brand-title">文具商城</h1>
+      <div class="header-top">
+        <div class="brand-block" @click="$router.push('/index/home')">
+          <div class="brand-mark">WS</div>
+          <div class="brand-copy">
+            <p class="brand-kicker">Stationery Store</p>
+            <h1 class="brand-title">文具商城</h1>
+            <p class="brand-desc">为学习、办公和日常创作挑选好用文具</p>
+          </div>
+        </div>
+
+        <div class="account-block">
+          <div class="account-chip">
+            <span class="account-label">当前账号</span>
+            <strong>{{ Token ? username : '游客' }}</strong>
+          </div>
+          <el-button v-if="!Token" class="hero-action secondary" @click="toLogin()">登录</el-button>
+          <el-button v-if="Token" class="hero-action ghost" @click="logout">退出</el-button>
         </div>
       </div>
 
@@ -38,15 +51,6 @@
           个人中心
         </button>
       </nav>
-
-      <div class="account-block">
-        <div class="account-chip">
-          <span class="account-label">当前账号</span>
-          <strong>{{ Token ? username : '游客' }}</strong>
-        </div>
-        <el-button v-if="!Token" class="hero-action secondary" @click="toLogin()">登录</el-button>
-        <el-button v-if="Token" class="hero-action ghost" @click="logout">退出</el-button>
-      </div>
     </header>
 
     <main class="site-main">
@@ -145,7 +149,7 @@ export default {
 .site-shell {
   position: relative;
   min-height: 100vh;
-  padding: 28px;
+  padding: 24px clamp(14px, 3vw, 34px);
   color: var(--front-ink);
 }
 
@@ -162,7 +166,7 @@ export default {
   right: -80px;
   width: 260px;
   height: 260px;
-  background: rgba(217, 111, 58, 0.22);
+  background: rgba(77, 143, 216, 0.18);
 }
 
 .site-glow-b {
@@ -170,23 +174,47 @@ export default {
   left: -90px;
   width: 320px;
   height: 320px;
-  background: rgba(31, 116, 108, 0.18);
+  background: rgba(63, 158, 170, 0.14);
+}
+
+.site-pencil {
+  position: fixed;
+  right: -90px;
+  bottom: 72px;
+  width: 420px;
+  height: 32px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, #b8d8ff 0 12%, #3f9eaa 12% 80%, #eef6ff 80% 88%, #2367ad 88% 100%);
+  box-shadow: 0 18px 36px rgba(36, 50, 66, 0.14);
+  opacity: 0.18;
+  transform: rotate(-18deg);
+  pointer-events: none;
 }
 
 .site-header {
   position: sticky;
-  top: 16px;
+  top: 14px;
   z-index: 20;
-  display: grid;
-  grid-template-columns: 280px 1fr 260px;
-  gap: 20px;
-  align-items: center;
-  padding: 16px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 16px 18px 14px;
   border: 1px solid rgba(24, 37, 49, 0.08);
-  border-radius: 28px;
-  background: rgba(255, 250, 241, 0.78);
+  border-radius: 30px;
+  background: rgba(250, 253, 255, 0.88);
   backdrop-filter: blur(16px);
   box-shadow: var(--front-shadow);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
 }
 
 .brand-block {
@@ -201,8 +229,9 @@ export default {
   place-items: center;
   width: 60px;
   height: 60px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--front-ink), #2d475c);
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, var(--front-green), var(--front-teal));
   color: #fff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 28px;
@@ -228,14 +257,24 @@ export default {
 .brand-title {
   margin: 4px 0 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
+  font-size: 30px;
+}
+
+.brand-desc {
+  margin: 5px 0 0;
+  color: var(--front-muted);
+  font-size: 13px;
 }
 
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 22px;
+  background: rgba(36, 50, 66, 0.045);
 }
 
 .nav-pill,
@@ -248,19 +287,27 @@ export default {
 }
 
 .nav-pill {
-  padding: 11px 16px;
+  padding: 11px 18px;
   border-radius: 999px;
   transition: all 0.25s ease;
+  font-weight: 700;
 }
 
 .nav-pill:hover,
 .nav-pill.active {
-  background: rgba(24, 37, 49, 0.08);
-  color: var(--front-accent-deep);
+  background: #fff;
+  color: var(--front-green);
+  box-shadow: 0 8px 18px rgba(36, 50, 66, 0.08);
 }
 
 .nav-pill.utility {
-  background: rgba(31, 116, 108, 0.08);
+  margin-left: auto;
+  background: rgba(47, 143, 103, 0.1);
+  color: var(--front-green);
+}
+
+.nav-pill.utility + .nav-pill.utility {
+  margin-left: 0;
 }
 
 .account-block {
@@ -275,8 +322,9 @@ export default {
   flex-direction: column;
   align-items: flex-end;
   padding: 10px 14px;
-  border-radius: 18px;
-  background: rgba(24, 37, 49, 0.06);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(36, 50, 66, 0.08);
 }
 
 .account-label {
@@ -289,6 +337,8 @@ export default {
 .site-main {
   position: relative;
   z-index: 1;
+  max-width: 1320px;
+  margin: 0 auto;
   padding-top: 24px;
 }
 
@@ -311,7 +361,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  max-width: 1320px;
   margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 20px 26px;
   border: 1px solid rgba(24, 37, 49, 0.08);
   border-radius: 32px;
@@ -348,13 +401,17 @@ export default {
 }
 
 @media (max-width: 1180px) {
-  .site-header {
-    grid-template-columns: 1fr;
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .brand-block,
   .account-block {
-    justify-content: center;
+    justify-content: flex-start;
+  }
+
+  .nav-pill.utility {
+    margin-left: 0;
   }
 }
 
@@ -366,6 +423,15 @@ export default {
   .site-footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .brand-block,
+  .account-block {
+    width: 100%;
+  }
+
+  .account-block {
+    justify-content: space-between;
   }
 }
 </style>

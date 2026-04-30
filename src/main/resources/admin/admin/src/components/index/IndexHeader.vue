@@ -91,7 +91,7 @@ export default {
   width: 56px;
   height: 56px;
   border-radius: 18px;
-  background: linear-gradient(135deg, var(--admin-navy), #29516f);
+  background: linear-gradient(135deg, var(--admin-accent), var(--admin-teal));
   color: #fff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 26px;
@@ -126,7 +126,7 @@ export default {
   min-width: 110px;
   padding: 10px 14px;
   border-radius: 18px;
-  background: rgba(23, 48, 67, 0.05);
+  background: rgba(77, 143, 216, 0.08);
 }
 
 .status-card span {
@@ -147,15 +147,15 @@ export default {
   border: 0;
   padding: 12px 16px;
   border-radius: 999px;
-  background: rgba(43, 125, 120, 0.1);
-  color: var(--admin-teal);
+  background: rgba(77, 143, 216, 0.12);
+  color: var(--admin-accent-deep);
   cursor: pointer;
   font: inherit;
   font-weight: 700;
 }
 
 .header-link.danger {
-  background: rgba(201, 106, 45, 0.12);
+  background: rgba(35, 103, 173, 0.1);
   color: var(--admin-accent-deep);
 }
 
