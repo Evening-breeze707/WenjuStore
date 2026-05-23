@@ -98,12 +98,12 @@ const routes = [{
       }
       ,{
 	path: '/discusswenjuxinxi',
-        name: '文具信息评论',
+        name: '文具商品评论',
         component: discusswenjuxinxi
       }
       ,{
 	path: '/wenjuxinxi',
-        name: '文具信息',
+        name: '文具商品',
         component: wenjuxinxi
       }
     ]

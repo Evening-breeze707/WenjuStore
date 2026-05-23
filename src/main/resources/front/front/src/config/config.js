@@ -6,7 +6,7 @@ export default {
             url: '/index/home'
         },
         {
-            name: '文具信息',
+            name: '文具商品',
             url: '/index/wenjuxinxi'
         },
         {

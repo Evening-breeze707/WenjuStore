@@ -38,6 +38,13 @@ public interface OrdersDao extends BaseMapper<OrdersEntity> {
 
     List<Map<String, Object>> selectGroup(@Param("params") Map<String, Object> params,@Param("ew") Wrapper<OrdersEntity> wrapper);
 
+    Map<String, Object> selectDashboardSummary(@Param("params") Map<String, Object> params);
+
+    List<Map<String, Object>> selectDashboardTrend(@Param("params") Map<String, Object> params);
+
+    List<Map<String, Object>> selectDashboardQuantityRank(@Param("params") Map<String, Object> params);
+
+    List<Map<String, Object>> selectDashboardAmountRank(@Param("params") Map<String, Object> params);
 
 
 }

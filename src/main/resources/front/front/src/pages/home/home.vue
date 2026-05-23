@@ -31,7 +31,7 @@
       <div class="panel-head">
         <div>
           <p class="panel-tag">精选推荐</p>
-          <h3>文具信息推荐</h3>
+          <h3>文具商品推荐</h3>
         </div>
         <button class="panel-link" @click="moreBtn('wenjuxinxi')">查看更多</button>
       </div>

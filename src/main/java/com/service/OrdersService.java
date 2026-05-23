@@ -39,6 +39,13 @@ public interface OrdersService extends IService<OrdersEntity> {
 
     List<Map<String, Object>> selectGroup(Map<String, Object> params,Wrapper<OrdersEntity> wrapper);
 
+    Map<String, Object> selectDashboardSummary(Map<String, Object> params);
+
+    List<Map<String, Object>> selectDashboardTrend(Map<String, Object> params);
+
+    List<Map<String, Object>> selectDashboardQuantityRank(Map<String, Object> params);
+
+    List<Map<String, Object>> selectDashboardAmountRank(Map<String, Object> params);
 
 
 }

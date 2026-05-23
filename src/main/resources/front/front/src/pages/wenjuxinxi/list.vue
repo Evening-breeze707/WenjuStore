@@ -82,7 +82,7 @@
         baseUrl: '',
         breadcrumbItem: [
           {
-            name: '文具信息'
+            name: '文具商品'
           }
         ],
         formSearch: {

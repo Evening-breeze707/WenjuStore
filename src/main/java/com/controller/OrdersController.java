@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.utils.ValidatorUtils;
@@ -332,4 +336,23 @@ public class OrdersController {
 
 
 
+    /**
+     * 后台首页仪表盘数据
+     */
+    @RequestMapping("/dashboard")
+    public R dashboard(HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        LocalDate today = LocalDate.now();
+        params.put("currentMonth", today.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+        params.put("startDate", LocalDateTime.of(today.minusDays(6), LocalTime.MIN).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        params.put("endDate", LocalDateTime.of(today.plusDays(1), LocalTime.MIN).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("currentMonth", params.get("currentMonth"));
+        data.put("summary", ordersService.selectDashboardSummary(params));
+        data.put("trend", ordersService.selectDashboardTrend(params));
+        data.put("quantityRank", ordersService.selectDashboardQuantityRank(params));
+        data.put("amountRank", ordersService.selectDashboardAmountRank(params));
+        return R.ok().put("data", data);
+    }
 }

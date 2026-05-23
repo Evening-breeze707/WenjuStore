@@ -74,6 +74,26 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         return baseMapper.selectGroup(params, wrapper);
     }
 
+    @Override
+    public Map<String, Object> selectDashboardSummary(Map<String, Object> params) {
+        return baseMapper.selectDashboardSummary(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectDashboardTrend(Map<String, Object> params) {
+        return baseMapper.selectDashboardTrend(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectDashboardQuantityRank(Map<String, Object> params) {
+        return baseMapper.selectDashboardQuantityRank(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectDashboardAmountRank(Map<String, Object> params) {
+        return baseMapper.selectDashboardAmountRank(params);
+    }
+
 
 
 

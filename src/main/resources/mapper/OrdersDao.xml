@@ -82,6 +82,55 @@
         limit 10
     </select>
 
+    <select id="selectDashboardSummary" resultType="map">
+        SELECT
+        COUNT(CASE WHEN DATE_FORMAT(addtime, '%Y-%m') = #{params.currentMonth} THEN 1 END) AS monthOrderCount,
+        COUNT(CASE WHEN DATE_FORMAT(addtime, '%Y-%m') = #{params.currentMonth} AND status = '已完成' THEN 1 END) AS monthFinishedCount,
+        COUNT(CASE WHEN DATE_FORMAT(addtime, '%Y-%m') = #{params.currentMonth} AND status = '已退款' THEN 1 END) AS monthRefundCount,
+        ROUND(IFNULL(SUM(CASE WHEN DATE_FORMAT(addtime, '%Y-%m') = #{params.currentMonth} AND status IN ('已支付','已发货','已完成') AND type <![CDATA[ <> ]]> 2 THEN total ELSE 0 END), 0), 2) AS monthAmount
+        FROM orders
+    </select>
+
+    <select id="selectDashboardTrend" resultType="map">
+        SELECT
+        DATE_FORMAT(addtime,'%Y-%m-%d') AS statDate,
+        IFNULL(SUM(buynumber), 0) AS quantityTotal,
+        ROUND(IFNULL(SUM(total), 0), 2) AS amountTotal
+        FROM orders
+        WHERE status IN ('已支付','已发货','已完成')
+          AND type <![CDATA[ <> ]]> 2
+          AND addtime <![CDATA[ >= ]]> #{params.startDate}
+          AND addtime <![CDATA[ < ]]> #{params.endDate}
+        GROUP BY DATE_FORMAT(addtime,'%Y-%m-%d')
+        ORDER BY statDate ASC
+    </select>
+
+    <select id="selectDashboardQuantityRank" resultType="map">
+        SELECT
+        goodname,
+        IFNULL(SUM(buynumber), 0) AS quantityTotal
+        FROM orders
+        WHERE status IN ('已支付','已发货','已完成')
+          AND type <![CDATA[ <> ]]> 2
+          AND DATE_FORMAT(addtime, '%Y-%m') = #{params.currentMonth}
+        GROUP BY goodname
+        ORDER BY quantityTotal DESC, goodname ASC
+        LIMIT 5
+    </select>
+
+    <select id="selectDashboardAmountRank" resultType="map">
+        SELECT
+        goodname,
+        ROUND(IFNULL(SUM(total), 0), 2) AS amountTotal
+        FROM orders
+        WHERE status IN ('已支付','已发货','已完成')
+          AND type <![CDATA[ <> ]]> 2
+          AND DATE_FORMAT(addtime, '%Y-%m') = #{params.currentMonth}
+        GROUP BY goodname
+        ORDER BY amountTotal DESC, goodname ASC
+        LIMIT 5
+    </select>
+
 
 
 </mapper>
